@@ -5,7 +5,7 @@
 //   - Added rematchOfferedAt to deserialize, serializeSeed, serializeUpdate
 
 import type { GameMode }      from '@draftchess/shared'
-import type { GameState, RawGameHash, SeedGameStatePayload } from './types'
+import type { GameState, RawGameHash, SeedGameStatePayload } from './types.js'
 
 function int(val: string | undefined): number {
   const n = parseInt(val ?? '0', 10)

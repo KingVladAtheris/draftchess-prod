@@ -1,7 +1,7 @@
 // packages/shared/src/fen-utils.ts
 // FEN manipulation utilities for Draft Chess.
 // ELO helpers have moved to ./elo.ts
-import { MIN_ELO } from "./elo"
+import { MIN_ELO } from "./elo.js"
 
 export function expandFenRow(row: string): string {
   let result = "";

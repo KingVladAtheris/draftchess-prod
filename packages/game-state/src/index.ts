@@ -11,7 +11,7 @@ export type {
   LuaDrawDeclineResult,
   LuaRematchOfferResult,
   RawGameHash,
-} from './types'
+} from './types.js'
 
 export {
   gameKey,
@@ -31,9 +31,9 @@ export {
   cancelRematch,
   isRematchExpired,
   gameExists,
-} from './client'
+} from './client.js'
 
-export { loadGameState } from './fallback'
+export { loadGameState } from './fallback.js'
 
 export {
   MOVE_SCRIPT,
@@ -45,4 +45,4 @@ export {
   FINISH_SCRIPT,
   REMATCH_OFFER_SCRIPT,
   REMATCH_CANCEL_SCRIPT,
-} from './lua'
+} from './lua.js'

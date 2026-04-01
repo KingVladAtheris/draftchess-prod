@@ -10,7 +10,9 @@
       "@draftchess/shared/*":      ["../../packages/shared/src/*.ts"],
       "@draftchess/socket-types":  ["../../packages/socket-types/src/index.ts"],
       "@draftchess/logger":        ["../../packages/logger/src/index.ts"],
-      "@draftchess/game-state":    ["../../packages/game-state/src/index.ts"]
+      "@draftchess/game-state":    ["../../packages/game-state/src/index.ts"],
+      "@draftchess/token-service":     ["../../packages/token-service/src/index.ts"],
+      "@draftchess/tournament-engine": ["../../packages/tournament-engine/src/index.ts"]
     }
   },
   "references": [
@@ -18,7 +20,9 @@
     { "path": "../../packages/shared" },
     { "path": "../../packages/socket-types" },
     { "path": "../../packages/logger" },
-    { "path": "../../packages/game-state" }
+    { "path": "../../packages/game-state" },
+    { "path": "../../packages/token-service" },
+    { "path": "../../packages/tournament-engine" }
   ],
   "include": ["src"]
 }

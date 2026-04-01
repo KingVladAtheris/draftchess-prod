@@ -4,7 +4,7 @@ import {
   deserialize,
   serializeSeed,
   serializeUpdate,
-} from './serialization';
+} from './serialization.js';
 import {
   MOVE_SCRIPT,
   PLACE_SCRIPT,
@@ -15,7 +15,7 @@ import {
   FINISH_SCRIPT,
   REMATCH_OFFER_SCRIPT,
   REMATCH_CANCEL_SCRIPT,
-} from './lua';
+} from './lua.js';
 import type {
   GameState,
   SeedGameStatePayload,
@@ -26,7 +26,7 @@ import type {
   LuaDrawOfferResult,
   LuaDrawDeclineResult,
   LuaRematchOfferResult,
-} from './types';
+} from './types.js';
 
 export function gameKey(gameId: number): string {
   return `game:${gameId}`;

@@ -1,4 +1,4 @@
 // packages/shared/src/index.ts
-export * from "./elo";
-export * from "./fen-utils";
-export * from "./game-modes";
+export * from "./elo.js";
+export * from "./fen-utils.js";
+export * from "./game-modes.js";

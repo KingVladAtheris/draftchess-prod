@@ -3,9 +3,7 @@
   "compilerOptions": {
     "outDir":           "./dist",
     "rootDir":          "./src",
-    "composite":        true,
-    "moduleResolution": "bundler",
-    "module":           "esnext"
+    "composite":        true
   },
   "include": ["src"]
 }
