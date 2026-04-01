@@ -1,0 +1,55 @@
+# Docker Compose configuration for DraftChess application
+version: '3.9'
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: draftchess-redis
+    command: redis-server --appendonly yes --appendfsync everysec --notify-keyspace-events KExg --maxmemory 10gb --maxmemory-policy allkeys-lru
+    ports: ["6379:6379"]
+    volumes: [redis_data:/data]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: draftchess
+    volumes: [postgres_data:/var/lib/postgresql/data]
+    ports: ["5432:5432"]
+    restart: unless-stopped
+
+  pgbouncer:
+    image: bitnami/pgbouncer:latest
+    environment:
+      PGBOUNCER_LISTEN_PORT: 6432
+      PGBOUNCER_POOL_MODE: transaction
+      PGBOUNCER_MAX_CLIENT_CONN: 300
+      PGBOUNCER_DEFAULT_POOL_SIZE: 60
+    ports: ["6432:6432"]
+    depends_on: [postgres]
+
+  matchmaker:
+    build: ./apps/matchmaker
+    env_file: .env
+    depends_on:
+      redis: { condition: service_healthy }
+      pgbouncer: { condition: service_started }
+    restart: unless-stopped
+
+  socket-server:
+    build: ./apps/socket-server
+    env_file: .env
+    depends_on:
+      redis: { condition: service_healthy }
+    deploy:
+      replicas: 4
+    restart: unless-stopped
+
+volumes:
+  redis_data:
+  postgres_data:
