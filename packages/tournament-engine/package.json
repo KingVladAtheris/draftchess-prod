@@ -1,10 +1,24 @@
 {
   "name": "@draftchess/tournament-engine",
+  "version": "0.0.1",
   "private": true,
-  "main": "./src/index.ts",
+  "type": "module",
   "exports": {
-    ".":       "./src/index.ts",
-    "./queue": "./src/queue.ts"
+    ".":       {
+      "types":   "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./queue": {
+      "types":   "./dist/queue.d.ts",
+      "default": "./dist/queue.js"
+    }
+  },
+  "main":  "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev":   "tsc --watch",
+    "clean": "rm -rf dist"
   },
   "dependencies": {
     "@draftchess/db":            "workspace:*",
