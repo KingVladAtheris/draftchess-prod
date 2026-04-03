@@ -18,7 +18,8 @@ WORKDIR /app
 COPY --from=deps /app ./
 COPY packages/ ./packages/
 COPY apps/socket-server/ ./apps/socket-server/
-RUN pnpm --filter socket-server... build
+RUN find . -name "*.tsbuildinfo" -delete
+RUN pnpm --filter @draftchess/socket-server... build
 
 FROM node:20-alpine AS runner
 WORKDIR /app

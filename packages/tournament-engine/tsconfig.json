@@ -4,6 +4,7 @@
     "outDir":    "./dist",
     "rootDir":   "./src",
     "composite": true,
+    "noImplicitAny": false,
     "paths": {
       "@draftchess/db":      ["../../packages/db/src/index.ts"],
       "@draftchess/shared":  ["../../packages/shared/src/index.ts"],

@@ -21,7 +21,8 @@ COPY --from=deps /app ./
 # Now copy actual source
 COPY packages/ ./packages/
 COPY apps/matchmaker/ ./apps/matchmaker/
-RUN pnpm --filter matchmaker... build
+RUN find . -name "*.tsbuildinfo" -delete
+RUN pnpm --filter @draftchess/matchmaker... build
 
 FROM node:20-alpine AS runner
 WORKDIR /app

@@ -16,6 +16,8 @@
     "@draftchess/db": "workspace:*",
     "@draftchess/shared": "workspace:*",
     "@draftchess/socket-types": "workspace:*",
+    "@draftchess/token-service": "workspace:*",
+    "@draftchess/tournament-engine": "workspace:*",
     "bcrypt": "^5.1.0",
     "bullmq": "^5.0.0",
     "chess.js": "^1.4.0",

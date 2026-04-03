@@ -80,7 +80,7 @@ importers:
         version: 8.3.0(socket.io-adapter@2.5.6)
       next-auth:
         specifier: 5.0.0-beta.29
-        version: 5.0.0-beta.29(next@16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
+        version: 5.0.0-beta.29(next@16.1.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
       pino:
         specifier: ^9.0.0
         version: 9.14.0
@@ -118,6 +118,12 @@ importers:
       '@draftchess/socket-types':
         specifier: workspace:*
         version: link:../../packages/socket-types
+      '@draftchess/token-service':
+        specifier: workspace:*
+        version: link:../../packages/token-service
+      '@draftchess/tournament-engine':
+        specifier: workspace:*
+        version: link:../../packages/tournament-engine
       bcrypt:
         specifier: ^5.1.0
         version: 5.1.1
@@ -138,7 +144,7 @@ importers:
         version: 16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       next-auth:
         specifier: 5.0.0-beta.29
-        version: 5.0.0-beta.29(next@16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
+        version: 5.0.0-beta.29(next@16.1.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
       pino:
         specifier: ^9.0.0
         version: 9.14.0
@@ -5351,7 +5357,7 @@ snapshots:
 
   negotiator@0.6.3: {}
 
-  next-auth@5.0.0-beta.29(next@16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4):
+  next-auth@5.0.0-beta.29(next@16.1.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4):
     dependencies:
       '@auth/core': 0.40.0
       next: 16.1.6(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
