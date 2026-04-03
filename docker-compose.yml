@@ -1,40 +1,54 @@
-# Docker Compose configuration for DraftChess application
-version: '3.9'
-
 services:
   redis:
     image: redis:7-alpine
     container_name: draftchess-redis
-    command: redis-server --appendonly yes --appendfsync everysec --notify-keyspace-events KExg --maxmemory 10gb --maxmemory-policy allkeys-lru
+    command: redis-server --appendonly yes --appendfsync everysec --notify-keyspace-events KExg --maxmemory 1gb --maxmemory-policy allkeys-lru --requirepass ${REDIS_PASSWORD}
     ports: ["6379:6379"]
     volumes: [redis_data:/data]
-    restart: unless-stopped
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ["CMD", "redis-cli", "--pass", "${REDIS_PASSWORD}", "ping"]
       interval: 10s
+    restart: unless-stopped
 
   postgres:
     image: postgres:16-alpine
     environment:
-      POSTGRES_USER: postgres
+      POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: draftchess
-    volumes: [postgres_data:/var/lib/postgresql/data]
+      POSTGRES_DB: ${POSTGRES_DB}
     ports: ["5432:5432"]
+    volumes: [postgres_data:/var/lib/postgresql/data]
     restart: unless-stopped
 
   pgbouncer:
-    image: bitnami/pgbouncer:latest
+    image: edoburu/pgbouncer:latest
     environment:
       PGBOUNCER_LISTEN_PORT: 6432
       PGBOUNCER_POOL_MODE: transaction
-      PGBOUNCER_MAX_CLIENT_CONN: 300
-      PGBOUNCER_DEFAULT_POOL_SIZE: 60
+      PGBOUNCER_MAX_CLIENT_CONN: 150
+      PGBOUNCER_DEFAULT_POOL_SIZE: 30
+      PGBOUNCER_AUTH_TYPE: md5
+      PGBOUNCER_USER: ${POSTGRES_USER}
+      PGBOUNCER_PASSWORD: ${POSTGRES_PASSWORD}
     ports: ["6432:6432"]
     depends_on: [postgres]
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    env_file: .env
+    ports: ["3000:3000"]
+    depends_on:
+      pgbouncer: { condition: service_started }
+      redis: { condition: service_healthy }
+    restart: unless-stopped
 
   matchmaker:
-    build: ./apps/matchmaker
+    build:
+      context: .
+      dockerfile: apps/matchmaker/Dockerfile
     env_file: .env
     depends_on:
       redis: { condition: service_healthy }
@@ -42,12 +56,25 @@ services:
     restart: unless-stopped
 
   socket-server:
-    build: ./apps/socket-server
+    build:
+      context: .
+      dockerfile: apps/socket-server/Dockerfile
     env_file: .env
     depends_on:
       redis: { condition: service_healthy }
     deploy:
-      replicas: 4
+      replicas: 2
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    container_name: draftchess-nginx
+    ports: ["80:80"]
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - web
+      - socket-server
     restart: unless-stopped
 
 volumes:
