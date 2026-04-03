@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/health/route.ts
 //
 // CHANGE: Redis client is now obtained via the shared singleton from

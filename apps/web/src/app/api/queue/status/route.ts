@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/api/queue/status/route.ts
 //
 // CHANGE: Matched status is now cached in Redis as matched:{userId} with a

@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/api/friends/request/route.ts
 //
 // CHANGE: on successful friend request creation, writes a Notification row

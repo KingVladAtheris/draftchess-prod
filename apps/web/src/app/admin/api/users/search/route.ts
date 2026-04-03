@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/admin/api/users/search/route.ts
 // GET ?q=prefix — search users by username (for token grant/revoke UI)
 

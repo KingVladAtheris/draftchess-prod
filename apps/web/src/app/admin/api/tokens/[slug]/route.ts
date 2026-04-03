@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/admin/api/tokens/[slug]/route.ts
 // GET   — single token definition + all holders
 // PATCH — edit token definition fields

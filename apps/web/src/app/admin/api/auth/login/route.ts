@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/admin/api/auth/login/route.ts
 
 import { NextRequest, NextResponse }      from 'next/server'

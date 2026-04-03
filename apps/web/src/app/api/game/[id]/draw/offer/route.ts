@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/api/game/[id]/draw/offer/route.ts
 //
 // POST — offer a draw to the opponent.

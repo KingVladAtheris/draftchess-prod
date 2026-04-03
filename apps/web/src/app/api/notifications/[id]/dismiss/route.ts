@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/api/notifications/[id]/dismiss/route.ts
 //
 // POST — permanently delete a single notification.

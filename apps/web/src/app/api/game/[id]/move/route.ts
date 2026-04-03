@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/api/game/[id]/move/route.ts
 //
 // Validates and applies a chess move.

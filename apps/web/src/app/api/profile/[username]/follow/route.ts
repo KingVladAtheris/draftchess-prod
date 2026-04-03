@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/api/profile/[username]/follow/route.ts
 // POST — follow or unfollow a user. Toggles based on current state.
 

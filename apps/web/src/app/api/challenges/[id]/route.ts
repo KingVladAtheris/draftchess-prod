@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/api/challenges/[id]/route.ts
 //
 // CHANGES:

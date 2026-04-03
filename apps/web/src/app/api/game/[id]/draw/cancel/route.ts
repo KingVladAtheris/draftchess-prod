@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/api/game/[id]/draw/cancel/route.ts
 //
 // POST — cancel your own pending draw offer.

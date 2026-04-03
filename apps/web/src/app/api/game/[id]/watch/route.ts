@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/api/game/[id]/watch/route.ts
 //
 // Public endpoint — no auth required.

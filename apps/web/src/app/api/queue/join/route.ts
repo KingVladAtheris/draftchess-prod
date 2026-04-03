@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/api/queue/join/route.ts
 //
 // CHANGE: Fixed TOCTOU race condition between the "already in game" check

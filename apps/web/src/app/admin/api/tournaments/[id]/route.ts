@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/admin/api/tournaments/[id]/route.ts
 // GET   — full tournament detail for monitoring
 // PATCH — actions: activate | disqualify | pause-stage | resume-stage | end-stage | cancel

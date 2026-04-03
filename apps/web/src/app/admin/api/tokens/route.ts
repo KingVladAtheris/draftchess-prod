@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/admin/api/tokens/route.ts
 // GET  — list all TokenDefinition rows with holder counts
 // POST — create a new token definition

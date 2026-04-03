@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/api/auth/[...nextauth]/route.ts
 //
 // CHANGE: Wraps NextAuth POST with fail-closed login rate limiting.

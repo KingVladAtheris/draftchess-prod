@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/api/tournaments/[id]/register/route.ts
 // POST — register the authenticated player for a tournament.
 //        Checks token requirement, consumes if consumeOnEntry, idempotent.

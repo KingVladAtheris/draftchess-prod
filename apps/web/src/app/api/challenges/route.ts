@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/api/challenges/route.ts
 //
 // CHANGE: on successful challenge creation, writes a Notification row

@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/api/drafts/route.ts
 // GET — returns the current user's drafts, optionally filtered by ?mode=
 

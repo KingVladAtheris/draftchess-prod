@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/admin/api/tokens/holders/[slug]/route.ts
 // GET — all holders of a specific token type
 

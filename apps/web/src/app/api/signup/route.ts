@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/api/signup/route.ts
 import { prisma }                        from "@draftchess/db";
 import bcrypt                            from "bcrypt";

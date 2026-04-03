@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/api/tournaments/rounds/[roundId]/pick/route.ts
 //
 // POST — record a player's draft pick for an upcoming tournament round.

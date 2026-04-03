@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/api/game/[id]/status/route.ts
 //
 // Returns the current game state for the requesting player.

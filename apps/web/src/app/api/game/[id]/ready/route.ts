@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/api/game/[id]/ready/route.ts
 //
 // FIX: When both players are ready, the Postgres game row must be updated

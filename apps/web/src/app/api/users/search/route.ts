@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/api/users/search/route.ts
 //
 // GET ?q=prefix — returns up to 8 users whose username starts with q.

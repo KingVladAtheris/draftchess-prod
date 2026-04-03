@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/admin/api/tokens/grant/route.ts
 // POST — grant a token to a user
 // body: { userId: number, tokenSlug: string, note?: string }

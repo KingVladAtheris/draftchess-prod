@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/api/notifications/route.ts
 //
 // GET  — returns all non-dismissed notifications for the current user,

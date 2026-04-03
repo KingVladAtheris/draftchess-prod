@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/api/queue/leave/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";

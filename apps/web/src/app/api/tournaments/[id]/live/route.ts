@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/api/tournaments/[id]/live/route.ts
 // GET — lightweight live data for the tournament live view polling.
 

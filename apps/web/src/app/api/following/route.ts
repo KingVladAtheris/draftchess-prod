@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/api/following/route.ts
 // GET — returns users the current user is following, with online status.
 

@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/admin/api/tokens/revoke/route.ts
 // POST — revoke a token from a user
 // body: { userId: number, tokenSlug: string }

@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/api/game/[id]/draw/accept/route.ts
 //
 // POST — accept a pending draw offer.

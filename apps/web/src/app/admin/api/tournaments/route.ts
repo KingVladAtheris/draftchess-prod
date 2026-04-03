@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/admin/api/tournaments/route.ts
 // GET  — list all tournaments
 // POST — create tournament with stages and prizes

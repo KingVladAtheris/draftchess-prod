@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/api/drafts/[id]/route.ts
 // CHANGES:
 //   - Budget enforcement now uses draft.mode to get the correct point limit

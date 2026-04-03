@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/api/game/[id]/place/route.ts
 //
 // Places an aux piece during the prep phase.

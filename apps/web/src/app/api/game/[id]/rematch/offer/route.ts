@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 // apps/web/src/app/api/game/[id]/rematch/offer/route.ts
 //
 // POST — offer a rematch after a finished game.
