@@ -31,6 +31,9 @@ services:
       PGBOUNCER_USER: ${POSTGRES_USER}
       PGBOUNCER_PASSWORD: ${POSTGRES_PASSWORD}
     ports: ["6432:6432"]
+    volumes:
+      - ./pgbouncer/pgbouncer.ini:/etc/pgbouncer/pgbouncer.ini
+      - ./pgbouncer/userlist.txt:/etc/pgbouncer/userlist.txt
     depends_on: [postgres]
     restart: unless-stopped
 
@@ -71,7 +74,7 @@ services:
     container_name: draftchess-nginx
     ports: ["80:80"]
     volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/conf.d/local.conf:/etc/nginx/conf.d/local.conf
     depends_on:
       - web
       - socket-server

@@ -15,10 +15,6 @@ import { logger }                                              from '@draftchess
 
 const log = logger.child({ module: 'web:rate-limit' })
 
-if (!process.env.REDIS_URL) {
-  throw new Error('REDIS_URL is not set')
-}
-
 function parseRedisUrl(url: string) {
   const u = new URL(url)
   return {
@@ -28,15 +24,16 @@ function parseRedisUrl(url: string) {
   }
 }
 
-// ── Single shared ioredis client for all rate limiters ────────────────────────
-// Using a module-level singleton prevents each Next.js route invocation from
-// opening a new connection. ioredis reconnects automatically on failure.
 let _ioRedis: Redis | null = null
 
 function getIoRedis(): Redis {
   if (_ioRedis) return _ioRedis
 
-  const opts = parseRedisUrl(process.env.REDIS_URL!)
+  if (!process.env.REDIS_URL) {
+    throw new Error('REDIS_URL is not set')
+  }
+
+  const opts = parseRedisUrl(process.env.REDIS_URL)
   _ioRedis   = new Redis(opts)
 
   _ioRedis.on('error',  (err) => log.error({ err: err.message }, 'rate-limit redis error'))
@@ -45,73 +42,39 @@ function getIoRedis(): Redis {
   return _ioRedis
 }
 
-// ── In-memory fallback for auth routes when Redis is unavailable ──────────────
 const _memoryAuthLimiter = new RateLimiterMemory({
   points:    3,
   duration:  15 * 60,
   keyPrefix: 'mem:auth',
 })
 
-// ── Rate limiters ─────────────────────────────────────────────────────────────
-export const signupLimiter = new RateLimiterRedis({
-  storeClient: getIoRedis(),
-  keyPrefix:   'rl:signup',
-  points:      5,
-  duration:    15 * 60,
-})
+// ── Lazy rate limiter factory ─────────────────────────────────────────────────
+function makeRedisLimiter(keyPrefix: string, points: number, duration: number) {
+  let _limiter: RateLimiterRedis | null = null
+  return new Proxy({} as RateLimiterRedis, {
+    get(_target, prop) {
+      if (!_limiter) {
+        _limiter = new RateLimiterRedis({
+          storeClient: getIoRedis(),
+          keyPrefix,
+          points,
+          duration,
+        })
+      }
+      return _limiter[prop as keyof RateLimiterRedis]
+    }
+  })
+}
 
-export const loginLimiter = new RateLimiterRedis({
-  storeClient: getIoRedis(),
-  keyPrefix:   'rl:login',
-  points:      10,
-  duration:    15 * 60,
-})
+export const signupLimiter   = makeRedisLimiter('rl:signup',    5,   15 * 60)
+export const loginLimiter    = makeRedisLimiter('rl:login',     10,  15 * 60)
+export const queueLimiter    = makeRedisLimiter('rl:queue',     10,  60)
+export const moveLimiter     = makeRedisLimiter('rl:move',      60,  60)
+export const placeLimiter    = makeRedisLimiter('rl:place',     20,  60)
+export const draftLimiter    = makeRedisLimiter('rl:draft',     30,  60)
+export const generalLimiter  = makeRedisLimiter('rl:general',   120, 60)
+export const challengeLimiter = makeRedisLimiter('rl:challenge', 5,  60 * 60)
 
-export const queueLimiter = new RateLimiterRedis({
-  storeClient: getIoRedis(),
-  keyPrefix:   'rl:queue',
-  points:      10,
-  duration:    60,
-})
-
-export const moveLimiter = new RateLimiterRedis({
-  storeClient: getIoRedis(),
-  keyPrefix:   'rl:move',
-  points:      60,
-  duration:    60,
-})
-
-export const placeLimiter = new RateLimiterRedis({
-  storeClient: getIoRedis(),
-  keyPrefix:   'rl:place',
-  points:      20,
-  duration:    60,
-})
-
-export const draftLimiter = new RateLimiterRedis({
-  storeClient: getIoRedis(),
-  keyPrefix:   'rl:draft',
-  points:      30,
-  duration:    60,
-})
-
-export const generalLimiter = new RateLimiterRedis({
-  storeClient: getIoRedis(),
-  keyPrefix:   'rl:general',
-  points:      120,
-  duration:    60,
-})
-
-// 5 challenges sent per user per hour — prevents spam-challenging after declines.
-// Keyed by userId so it's per-sender, not per-IP.
-export const challengeLimiter = new RateLimiterRedis({
-  storeClient: getIoRedis(),
-  keyPrefix:   'rl:challenge',
-  points:      5,
-  duration:    60 * 60,
-})
-
-// ── Core consume function ─────────────────────────────────────────────────────
 export async function consume(
   limiter: RateLimiterRedis,
   request: NextRequest,
@@ -147,11 +110,9 @@ export async function consume(
     log.error({ err, limitKey }, 'rate limiter consume error')
 
     if (!isAuthRoute) {
-      // Non-auth routes fail open on Redis errors — availability > strict limiting
       return null
     }
 
-    // Auth routes fail closed via in-memory fallback
     try {
       await _memoryAuthLimiter.consume(limitKey)
       log.warn({ limitKey }, 'auth route using memory fallback for rate limit')

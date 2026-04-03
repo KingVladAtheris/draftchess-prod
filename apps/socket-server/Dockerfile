@@ -5,13 +5,15 @@ RUN corepack enable pnpm
 FROM base AS deps
 WORKDIR /app
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.base.json ./
-COPY packages/db/package.json ./packages/db/
+COPY packages/db/package.json packages/db/prisma.config.ts ./packages/db/
+COPY packages/db/prisma/ ./packages/db/prisma/
 COPY packages/game-state/package.json ./packages/game-state/
 COPY packages/logger/package.json ./packages/logger/
 COPY packages/shared/package.json ./packages/shared/
 COPY packages/socket-types/package.json ./packages/socket-types/
 COPY apps/socket-server/package.json ./apps/socket-server/
 RUN pnpm install --frozen-lockfile
+RUN cd packages/db && pnpm exec prisma generate --config prisma.config.ts
 
 FROM base AS builder
 WORKDIR /app
@@ -21,19 +23,12 @@ COPY apps/socket-server/ ./apps/socket-server/
 RUN find . -name "*.tsbuildinfo" -delete
 RUN pnpm --filter @draftchess/socket-server... build
 
-FROM node:20-alpine AS runner
-WORKDIR /app
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 socketuser
+
 ENV NODE_ENV=production
 ENV PORT=3001
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 socketuser
-
-COPY --from=builder /app/apps/socket-server/dist ./dist
-COPY --from=builder /app/apps/socket-server/package.json ./
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/packages ./packages
-
 USER socketuser
 EXPOSE 3001
-CMD ["node", "dist/index.js"]
+CMD ["node", "apps/socket-server/dist/index.js"]

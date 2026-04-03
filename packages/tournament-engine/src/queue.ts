@@ -15,11 +15,21 @@ function parseRedisUrl(url: string): { host: string; port: number; password?: st
   }
 }
 
-if (!process.env.REDIS_URL) {
-  throw new Error('REDIS_URL environment variable is not set')
+function createQueue(): Queue {
+  if (!process.env.REDIS_URL) {
+    throw new Error('REDIS_URL environment variable is not set')
+  }
+  return new Queue('tournament-queue', {
+    connection:        parseRedisUrl(process.env.REDIS_URL),
+    defaultJobOptions: { removeOnComplete: 100, removeOnFail: 200 },
+  })
 }
 
-export const tournamentQueue = new Queue('tournament-queue', {
-  connection:        parseRedisUrl(process.env.REDIS_URL),
-  defaultJobOptions: { removeOnComplete: 100, removeOnFail: 200 },
+let _queue: Queue | null = null
+
+export const tournamentQueue = new Proxy({} as Queue, {
+  get(_target, prop) {
+    if (!_queue) _queue = createQueue()
+    return _queue[prop as keyof Queue]
+  }
 })
