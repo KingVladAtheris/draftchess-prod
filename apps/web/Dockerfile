@@ -23,6 +23,12 @@ COPY --from=deps /app ./
 COPY packages/ ./packages/
 COPY apps/web/ ./apps/web/
 RUN find . -name "*.tsbuildinfo" -delete
+
+ARG NEXT_PUBLIC_SOCKET_URL
+ARG NEXT_PUBLIC_APP_URL
+ENV NEXT_PUBLIC_SOCKET_URL=$NEXT_PUBLIC_SOCKET_URL
+ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
+
 RUN pnpm --filter @draftchess/web... build
 
 RUN addgroup --system --gid 1001 nodejs && \
